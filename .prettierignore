@@ -1,0 +1,12 @@
+node_modules
+.gitignore
+.env
+.env.local
+.eslintrc.json
+.prettierrc
+.prettierignore
+.README.md
+.next.config.js
+package.json
+package-lock.json
+public
