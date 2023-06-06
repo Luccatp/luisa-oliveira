@@ -28,18 +28,10 @@ export const authOptions: NextAuthOptions = {
         GoogleProvider({
             clientId: getGoogleCredentials().clientId,
             clientSecret: getGoogleCredentials().clientSecret,
-            authorization: {
-                params: {
-                  prompt: "consent",
-                  access_type: "offline",
-                  response_type: "code"
-                },  
-            },
         })
     ],
     callbacks: {
         async jwt({token, user}) {
-            
             if(user) {
                 token.id = user.id;
                 return token;

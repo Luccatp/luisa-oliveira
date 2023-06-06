@@ -1,8 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { authOptions } from './lib/auth';
-import { getSession } from 'next-auth/react';
 import { getToken } from 'next-auth/jwt';
  
 // This function can be marked `async` if using `await` inside
