@@ -10,7 +10,7 @@ const User: FC<userProps> = ({}) => {
 	return (
 		<>
 			<h1>Client Session</h1>
-			<pre>{JSON.stringify(session)}</pre>
+			<p>{JSON.stringify(session)}</p>
 		</>
 	);
 };

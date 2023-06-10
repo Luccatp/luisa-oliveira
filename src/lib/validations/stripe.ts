@@ -7,8 +7,7 @@ export const checkoutSessionSchema = z.object({
             price: z.string(),
             quantity: z.number().int(),
         })
-    ),
-    email: z.string().email(),
+    )
 })
 
 export type CheckoutSessionType = z.infer<typeof checkoutSessionSchema> 

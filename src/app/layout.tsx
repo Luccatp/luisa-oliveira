@@ -1,6 +1,7 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { NextAuthProvider } from './providers';
+import MenuHamburguer from '@/components/MenuHamburguer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,6 +18,10 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={inter.className}>
+				<nav className='flex justify-between items-center h-16 px-6 border-b border-gray-200'>
+					<h1>Luisa Oliveira</h1>
+					<MenuHamburguer />
+				</nav>
 				<NextAuthProvider>{children}</NextAuthProvider>
 			</body>
 		</html>

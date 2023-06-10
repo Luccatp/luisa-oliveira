@@ -1,16 +1,14 @@
-import Stripe from 'stripe'
+
 import { NextRequest, NextResponse } from 'next/server'
-import { get } from 'http'
-import { useStripe } from '@/lib/utils'
+import { getStripe } from '@/lib/utils'
 import { checkoutSessionSchema } from '@/lib/validations/stripe'
-import { LineItem } from '@stripe/stripe-js'
 import { getToken } from 'next-auth/jwt'
 
-export async function POST(request: any) {
+export async function POST(request: NextRequest) {
     const body = await request.json()
     const req = checkoutSessionSchema.parse(body)
     const token = await getToken({ req: request, secret: process.env.NEXT_AUTH_SECRET });
-    const stripe = useStripe();
+    const stripe = getStripe();
 
     if(!token || !token.email) {
         return NextResponse.json({error: 'Você precisa estar logado para comprar'}, {status: 401})
@@ -27,7 +25,5 @@ export async function POST(request: any) {
         return NextResponse.json({error: 'Erro ao criar sessão de checkout'}, {status: 500})
     }
 
-    console.log("URL: " + checkout.url)
-
-    return NextResponse.redirect(checkout.url);
+    return NextResponse.json({url: checkout.url});
 }

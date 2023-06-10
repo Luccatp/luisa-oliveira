@@ -4,7 +4,7 @@ import { getProductsSchema } from '@/lib/validations/stripe'
 import { useStripe } from '@/lib/utils'
 
 export async function GET() {
-    const stripe = useStripe();
+    const stripe = getStripe();
     const products = await stripe.products.list({  
         active: true,
     })
