@@ -5,6 +5,7 @@ import error from 'next/error';
 import { FC } from 'react';
 import ProductCard from './ProductCard';
 import { useQuery } from 'react-query';
+import { GetProductsType } from '@/lib/validations/stripe';
 
 interface ProductsListProps {}
 
@@ -13,28 +14,21 @@ const ProductsList: FC<ProductsListProps> = ({}) => {
 		const res = await fetch('/api/getAll-products');
 		return await res.json();
 	});
+	console.log(data);
 	return (
 		<>
 			{!isLoading ? (
 				!error ? (
-					data.map(
-						(product: {
-							id: string;
-							name: string;
-							description: string;
-							price: number;
-							image: string;
-						}) => (
-							<ProductCard
-								key={product.id}
-								title={product.name}
-								description={product.description}
-								price={product.price}
-								image={product.image}
-								id={product.id}
-							/>
-						)
-					)
+					data.map((product: GetProductsType[0]) => (
+						<ProductCard
+							key={product.id}
+							title={product.name}
+							description={product.description}
+							price={product.default_price.unit_amount}
+							image={product.images[0]}
+							id={product.id}
+						/>
+					))
 				) : (
 					<p className='text-gray-500 font-bold'>
 						Erro ao carregar os produtos

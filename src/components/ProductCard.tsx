@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	CardTitle
 } from './ui/card';
+import Image from 'next/image';
 
 interface ProductCardProps {
 	title: string;
@@ -24,16 +25,25 @@ const ProductCard: FC<ProductCardProps> = ({
 	price
 }) => {
 	return (
-		<Card>
+		<Card className='w-64 h-64 flex flex-col justify-between'>
 			<CardHeader>
 				<CardTitle>{title}</CardTitle>
 				<CardDescription>{description}</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<p>Card Content</p>
+				{image && (
+					<Image
+						width={300}
+						height={100}
+						src={image}
+						alt={title}
+					/>
+				)}
 			</CardContent>
 			<CardFooter>
-				<p>Card Footer</p>
+				<p className='text-right w-full'>
+					R${price.toString().slice(0, -2) + ',' + price.toString().slice(-2)}
+				</p>
 			</CardFooter>
 		</Card>
 	);

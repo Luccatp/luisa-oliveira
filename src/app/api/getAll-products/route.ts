@@ -7,8 +7,10 @@ export async function GET() {
     const stripe = getStripe(); 
     const products = await stripe.products.list({  
         active: true,
+        expand: ['data.default_price'],
     })
 
     const response = getProductsSchema.parse(products.data);
+
     return NextResponse.json(response);
 }

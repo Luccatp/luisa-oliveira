@@ -18,9 +18,15 @@ export const getProductsSchema = z.array(
         name: z.string(),
         description: z.string(),
         images: z.array(z.string()),
-        default_price: z.string(),
+        default_price: z.object({
+            id: z.string(),
+            unit_amount: z.number(),
+            type: z.string(),
+        })
     })
 )
+
+export type GetProductsType = z.infer<typeof getProductsSchema>
 
 export const getPaymentIntentsSchema = z.array(
     z.object({
