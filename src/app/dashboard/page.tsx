@@ -1,7 +1,6 @@
 'use client';
-import Button from '@/components/ui/Button';
+import Button from '@/components/AsyncButton';
 import { CheckoutSessionType } from '@/lib/validations/stripe';
-import axios, { AxiosError } from 'axios';
 import { FC } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -19,25 +18,31 @@ const pages: FC<pagesProps> = ({}) => {
 		};
 
 		try {
-			const checkoutSessionUrl = await axios.post(
+			const checkoutSessionUrl: { url: string } = await fetch(
 				'/api/checkout-session',
-				body
-			);
-
-			console.log('front' + checkoutSessionUrl.data.url);
-			window.location.href = checkoutSessionUrl.data.url;
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(body)
+				}
+			).then((res) => res.json());
+			console.log(checkoutSessionUrl);
+			window.location.href = checkoutSessionUrl.url;
 		} catch (e) {
-			if (e instanceof AxiosError) console.log(e.response?.data);
 			return toast.error('Erro criando uma sessão de pagamento');
 		}
 	};
 
 	const getUserPayments = async () => {
 		try {
-			const userPayments = await axios.get('/api/user/payments');
+			const userPayments = await fetch('/api/user/payments').then((res) =>
+				res.json()
+			);
 			console.log(userPayments);
 		} catch (e) {
-			if (e instanceof AxiosError) console.log(e.response?.data);
+			console.log(e);
 			return toast.error('Erro ao buscar os pagamentos do usuário');
 		}
 	};

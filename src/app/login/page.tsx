@@ -1,8 +1,8 @@
 'use client';
 
-import Button from '@/components/ui/Button';
+import Button from '@/components/AsyncButton';
 import { FC, useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { toast } from 'react-hot-toast';
 import SignoutButton from '@/components/SignoutButton';
 
@@ -10,6 +10,7 @@ interface pageProps {}
 
 const Page: FC<pageProps> = ({}) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const isAuth = useSession().status === 'authenticated';
 
 	const loginWithGoogle = async () => {
 		setIsLoading(true);

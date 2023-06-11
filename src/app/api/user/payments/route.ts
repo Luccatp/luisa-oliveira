@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import { getStripe } from "@/lib/utils";
+import getStripe from "@/lib/loading-stripe";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+import { getPaymentIntentsSchema } from "@/lib/validations/stripe";
 
 export async function GET(req: NextRequest) {
     const stripe = getStripe();
@@ -12,13 +13,17 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({error: 'Você precisa estar logado para comprar'}, {status: 401})
     }
 
-    const paymentIntents = await stripe.paymentIntents.list();
+
+    const paymentIntents = await stripe.paymentIntents.list({
+        customer: token.stripeId as string,
+    });
     
-    console.log({paymentIntents})
 
     if(!paymentIntents || paymentIntents.data.length === 0) {
-        return NextResponse.json({error: 'Você precisa estar logado para comprar'}, {status: 401})
+        return NextResponse.json({error: 'Você não tem nenhuma compra'}, {status: 404})
     }
 
-    return NextResponse.json(paymentIntents.data);
+    const res = getPaymentIntentsSchema.parse(paymentIntents.data);
+
+    return NextResponse.json(res);
 }

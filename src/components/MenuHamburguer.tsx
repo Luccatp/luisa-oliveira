@@ -1,4 +1,4 @@
-import { Menu } from 'lucide-react';
+import { Loader, Menu } from 'lucide-react';
 import { FC } from 'react';
 import {
 	Dialog,
@@ -10,6 +10,8 @@ import {
 } from '@/components/ui/dialog';
 import Link from 'next/link';
 import { Button } from './ui/button';
+import { useSession } from 'next-auth/react';
+import DashboardLinks from './DashboardLinks';
 
 interface MenuHamburguerProps {}
 
@@ -25,26 +27,7 @@ const MenuHamburguer: FC<MenuHamburguerProps> = ({}) => {
 						Para qual local você deseja ir?
 					</DialogTitle>
 					<DialogDescription className='grid gap-10 justify-center'>
-						<Link
-							href='/'
-							className='text-center w-full'>
-							Home
-						</Link>
-						<Link
-							href='/produtos'
-							className='text-center w-full'>
-							Produtos
-						</Link>
-						<Link
-							href='/dashboard'
-							className='text-center w-full'>
-							Dashboard
-						</Link>
-						<Link
-							href='/login'
-							className='text-center'>
-							<Button>Login</Button>
-						</Link>
+						<DashboardLinks />
 					</DialogDescription>
 				</DialogHeader>
 			</DialogContent>

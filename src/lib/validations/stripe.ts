@@ -21,3 +21,15 @@ export const getProductsSchema = z.array(
         default_price: z.string(),
     })
 )
+
+export const getPaymentIntentsSchema = z.array(
+    z.object({
+        id: z.string(),
+        amount: z.number(),
+        payment_method_types: z.array(
+            z.string()
+        )
+    })
+)
+
+export type GetPaymentIntentsType = z.infer<typeof getPaymentIntentsSchema>

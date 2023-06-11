@@ -1,10 +1,11 @@
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getStripe } from '@/lib/utils'
+import getStripe from '@/lib/loading-stripe'
 import { checkoutSessionSchema } from '@/lib/validations/stripe'
 import { getToken } from 'next-auth/jwt'
 
 export async function POST(request: NextRequest) {
+    console.log( request)
     const body = await request.json()
     const req = checkoutSessionSchema.parse(body)
     const token = await getToken({ req: request, secret: process.env.NEXT_AUTH_SECRET });
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest) {
     const checkout = await stripe.checkout.sessions.create({
         success_url: 'http://localhost:3000/',
         line_items: req.items,
-        customer_email: token.email,
+        customer: token.stripeId as string, 
         mode: 'payment',
     })
 
