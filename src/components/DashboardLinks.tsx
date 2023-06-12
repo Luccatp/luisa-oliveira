@@ -37,7 +37,7 @@ const DashboardLinks: FC<DashboardLinksProps> = ({}) => {
 			</DialogClose>
 			<DialogClose asChild>
 				<Link
-					href='/produtos'
+					href='/agendar-horario'
 					className='text-center w-full'>
 					Agendar um horário
 				</Link>

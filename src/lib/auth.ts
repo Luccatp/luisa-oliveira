@@ -38,15 +38,11 @@ export const authOptions: NextAuthOptions = {
                 email: token.email || user.email || '',
                 limit: 1,
             });
+
             if(customer.data.length > 0) {
                 token.stripeId = customer.data[0].id as string;
-            } else {
-                const customer = await stripe.customers.create({
-                    email: token.email || user.email || '',
-                    name: token.name || user.name || '',
-                });
-                token.stripeId = customer.id;
             }
+            
             if(user) {
                 token.id = user.id;
                 return token;
@@ -62,10 +58,6 @@ export const authOptions: NextAuthOptions = {
         },
 
         async session({session, token}) {
-            const {stripeId, ...rest} = token;
-            if(token) {
-              session.user = {...rest};
-            }
             return session;
         },
 

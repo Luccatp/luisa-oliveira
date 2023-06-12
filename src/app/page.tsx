@@ -20,6 +20,16 @@ export default async function Home() {
 				<h2 className='font-black text-3xl'>
 					Seja a melhor social media topzera dos guri
 				</h2>
+				<div>
+					{server ? (
+						<p>{server.user?.name}</p>
+					) : (
+						<p className='text-gray-400'>
+							Seja bem vindo, faça login para continuar!
+						</p>
+					)}
+				</div>
+				<User />
 			</section>
 		</main>
 	);

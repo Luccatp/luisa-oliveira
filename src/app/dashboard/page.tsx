@@ -1,66 +1,44 @@
 'use client';
-import Button from '@/components/AsyncButton';
-import { CheckoutSessionType } from '@/lib/validations/stripe';
-import { FC } from 'react';
+import BoughtProducts from '@/components/BoughtProducts';
+import { GetInvoiceItemsType } from '@/lib/validations/stripe';
+import { Loader2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useQuery } from 'react-query';
 
-interface pagesProps {}
+interface PagesProps {}
 
-const pages: FC<pagesProps> = ({}) => {
-	const buyProducts = async () => {
-		const body: CheckoutSessionType = {
-			items: [
-				{
-					price: 'price_1NG5pwAELPJChHvaulT6ztes',
-					quantity: 1
-				}
-			]
-		};
-
-		try {
-			const checkoutSessionUrl: { url: string } = await fetch(
-				'/api/checkout-session',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(body)
-				}
-			).then((res) => res.json());
-			console.log(checkoutSessionUrl);
-			window.location.href = checkoutSessionUrl.url;
-		} catch (e) {
-			return toast.error('Erro criando uma sessão de pagamento');
-		}
-	};
-
-	const getUserPayments = async () => {
-		try {
-			const userPayments = await fetch('/api/user/payments').then((res) =>
-				res.json()
-			);
-			console.log(userPayments);
-		} catch (e) {
-			console.log(e);
-			return toast.error('Erro ao buscar os pagamentos do usuário');
-		}
-	};
+const Pages = ({}) => {
+	const { data, isLoading, error } = useQuery('user products', async () => {
+		const res = await fetch('/api/user/payments');
+		return await res.json();
+	});
 	return (
-		<div>
-			<h1>Dashboard</h1>
-			<Button
-				size={'lg'}
-				onClick={buyProducts}>
-				Buy products
-			</Button>
-			<Button
-				size={'lg'}
-				onClick={getUserPayments}>
-				Get User Payments
-			</Button>
+		<div className='flex gap-20 flex-col items-center my-20'>
+			<h1 className='font-bold text-gray-400 tracking-wide text-2xl'>
+				Dashboard
+			</h1>
+			<div className='flex gap-10 flex-wrap justify-center'>
+				{!isLoading ? (
+					!error ? (
+						data.map((product: GetInvoiceItemsType[0]) => (
+							<BoughtProducts
+								key={product.id}
+								title={product.description}
+								description={product.price.product.description}
+								image={product.price.product.images[0]}
+							/>
+						))
+					) : (
+						<p>
+							Um erro inesperado ocorreu, por favor tente novamente mais tarde.
+						</p>
+					)
+				) : (
+					<Loader2 className='text-pink-400 animate-spin' />
+				)}
+			</div>
 		</div>
 	);
 };
 
-export default pages;
+export default Pages;

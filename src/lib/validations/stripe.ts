@@ -28,14 +28,19 @@ export const getProductsSchema = z.array(
 
 export type GetProductsType = z.infer<typeof getProductsSchema>
 
-export const getPaymentIntentsSchema = z.array(
+export const getInvoiceItemsSchema = z.array(
     z.object({
         id: z.string(),
         amount: z.number(),
-        payment_method_types: z.array(
-            z.string()
-        )
+        description: z.string(),
+        price: z.object({
+            id: z.string(),
+            product: z.object({
+                images: z.array(z.string()),
+                description: z.string(),
+            })
+        })
     })
 )
 
-export type GetPaymentIntentsType = z.infer<typeof getPaymentIntentsSchema>
+export type GetInvoiceItemsType = z.infer<typeof getInvoiceItemsSchema>

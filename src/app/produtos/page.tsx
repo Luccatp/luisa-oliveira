@@ -1,3 +1,4 @@
+import Cart from '@/components/Cart';
 import ProductCard from '@/components/ProductCard';
 import ProductsList from '@/components/ProductsList';
 import { Loader2 } from 'lucide-react';

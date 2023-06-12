@@ -1,3 +1,4 @@
+'use client';
 import { FC } from 'react';
 import {
 	Card,
@@ -8,25 +9,22 @@ import {
 	CardTitle
 } from './ui/card';
 import Image from 'next/image';
-import { Loader2 } from 'lucide-react';
+import { ArrowRightCircle } from 'lucide-react';
 
-interface ProductCardProps {
+interface BoughtProductsProps {
 	title: string;
 	description: string;
-	price: number;
 	image: string;
-	id: string;
-	handleClick: () => void;
 }
 
-const ProductCard: FC<ProductCardProps> = ({
+const BoughtProducts: FC<BoughtProductsProps> = ({
 	title,
 	description,
-	id,
-	image,
-	price,
-	handleClick
+	image
 }) => {
+	const handleClick = () => {
+		console.log('clicked');
+	};
 	return (
 		<Card
 			className='w-64 h-96 flex flex-col justify-between'
@@ -44,13 +42,11 @@ const ProductCard: FC<ProductCardProps> = ({
 					/>
 				)}
 			</CardContent>
-			<CardFooter>
-				<p className='text-right w-full'>
-					R${price.toString().slice(0, -2) + ',' + price.toString().slice(-2)}
-				</p>
+			<CardFooter className='flex w-full justify-end'>
+				<ArrowRightCircle className='w-6 h-6' />
 			</CardFooter>
 		</Card>
 	);
 };
 
-export default ProductCard;
+export default BoughtProducts;
