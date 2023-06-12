@@ -8,8 +8,8 @@ export async function GET(req: NextRequest) {
     const stripe = getStripe();
     const token = await getToken({ req, secret: process.env.NEXT_AUTH_SECRET });
     
-    if(!token || !token.email) {
-        return NextResponse.json({error: 'Você precisa estar logado para comprar'}, {status: 401})
+    if(!token || !token.stripeId) {
+        return NextResponse.error()
     }
 
 
@@ -17,14 +17,15 @@ export async function GET(req: NextRequest) {
         customer: token.stripeId as string,
         expand: ['data.price.product'],
     });
+
+    console.log(invoiceItems)
     
 
     if(!invoiceItems || invoiceItems.data.length === 0) {
-        return NextResponse.json({error: 'Você não tem nenhuma compra'}, {status: 404})
+        return NextResponse.error()
     }
 
     const res = getInvoiceItemsSchema.parse(invoiceItems.data);
 
-    console.log(res)
     return NextResponse.json(res);
 }

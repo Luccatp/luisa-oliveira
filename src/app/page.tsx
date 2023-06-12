@@ -10,13 +10,6 @@ export default async function Home() {
 	return (
 		<main className='w-full h-screen px-2 flex flex-col items-center '>
 			<section className='flex flex-wrap w-full gap-20 mt-10'>
-				<Image
-					className='hidden md:block'
-					src={'/hero.svg'}
-					alt='productivity'
-					width={500}
-					height={500}
-				/>
 				<h2 className='font-black text-3xl'>
 					Seja a melhor social media topzera dos guri
 				</h2>

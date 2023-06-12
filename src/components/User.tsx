@@ -8,10 +8,10 @@ const User: FC<userProps> = ({}) => {
 	const { data: session } = useSession();
 
 	return (
-		<>
+		<div className='flex flex-col w-[90%]'>
 			<h1>Client Session</h1>
-			<p>{JSON.stringify(session)}</p>
-		</>
+			<p className='break-words'>{JSON.stringify(session)}</p>
+		</div>
 	);
 };
 

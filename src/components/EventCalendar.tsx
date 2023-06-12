@@ -25,11 +25,6 @@ const EventCalendar: FC<EventCalendarProps> = ({}) => {
 				onSelect={setDate}
 				className='rounded-md border'
 			/>
-			<AsyncButton
-				onClick={handleClick}
-				isLoading={loading}>
-				Agendar
-			</AsyncButton>
 		</div>
 	);
 };
