@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { FC } from 'react';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { DialogClose } from '@radix-ui/react-dialog';
 
 interface DashboardLinksProps {}
