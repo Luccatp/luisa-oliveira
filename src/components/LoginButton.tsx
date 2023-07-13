@@ -1,6 +1,6 @@
 'use client';
 import { FC } from 'react';
-import Button from './ui/Button';
+import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
 
 interface LoginButtonProps {}
@@ -8,7 +8,7 @@ interface LoginButtonProps {}
 const LoginButton: FC<LoginButtonProps> = ({}) => {
 	return (
 		<Button
-			variant={'border'}
+			variant={'outline'}
 			onClick={() => signIn()}>
 			Login
 		</Button>
