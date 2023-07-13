@@ -1,8 +1,11 @@
 import { ButtonHTMLAttributes, FC, HTMLProps } from 'react';
-import { Button, ButtonProps } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import { VariantProps } from 'class-variance-authority';
 
-interface AsyncButtonProps extends ButtonProps {
+interface AsyncButtonProps
+	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+		VariantProps<typeof buttonVariants> {
 	isLoading?: boolean;
 }
 
