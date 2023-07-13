@@ -33,20 +33,30 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({token, user}) {
+            
+            
             const stripe = getStripe();
             const customer = await stripe.customers.list({
                 email: token.email || user.email || '',
                 limit: 1,
             });
-
-            if(customer.data.length > 0) {
-                token.stripeId = customer.data[0].id as string;
-            }
             
             if(user) {
                 token.id = user.id;
                 return token;
             }
+            
+            if(customer.data.length === 0) {
+                return {
+                    id: token.id,
+                    name: token.name,
+                    email: token.email,
+                    image: token.picture,
+                    stripeId: null
+                }
+            }
+            token.stripeId = customer.data[0].id as string;
+            
 
             return {
                 id: token.id,

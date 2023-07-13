@@ -13,7 +13,7 @@ const Pages = ({}) => {
 		return await res.json();
 	});
 	return (
-		<div className='flex gap-20 flex-col items-center my-20'>
+		<div className='flex gap-20 flex-col items-center py-20'>
 			<h1 className='font-bold text-gray-400 tracking-wide text-2xl'>
 				Dashboard
 			</h1>

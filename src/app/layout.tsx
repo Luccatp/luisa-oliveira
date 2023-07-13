@@ -19,7 +19,7 @@ export default function RootLayout({
 		<html lang='en'>
 			<body className={inter.className}>
 				<NextAuthProvider>
-					<nav className='flex justify-between items-center h-16 px-6 border-b border-gray-200'>
+					<nav className='flex justify-between fixed w-full bg-blend-saturation backdrop-filter backdrop-blur-sm items-center h-14 px-6 border-b border-gray-200 z-50'>
 						<h1>Luisa Oliveira</h1>
 						<MenuHamburguer />
 					</nav>

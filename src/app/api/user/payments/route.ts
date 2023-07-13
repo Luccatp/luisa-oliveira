@@ -9,20 +9,16 @@ export async function GET(req: NextRequest) {
     const token = await getToken({ req, secret: process.env.NEXT_AUTH_SECRET });
     
     if(!token || !token.stripeId) {
-        return NextResponse.error()
+        return NextResponse.error();
     }
-
 
     const invoiceItems = await stripe.invoiceItems.list({
         customer: token.stripeId as string,
         expand: ['data.price.product'],
     });
 
-    console.log(invoiceItems)
-    
-
     if(!invoiceItems || invoiceItems.data.length === 0) {
-        return NextResponse.error()
+        return NextResponse.json({error: 'Não foi achado nenhuma compra no seu perfil.'}, {status: 404});
     }
 
     const res = getInvoiceItemsSchema.parse(invoiceItems.data);

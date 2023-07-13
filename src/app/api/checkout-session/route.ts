@@ -9,10 +9,11 @@ export async function POST(request: NextRequest) {
     const req = checkoutSessionSchema.parse(body)
     const token = await getToken({ req: request, secret: process.env.NEXT_AUTH_SECRET });
     const stripe = getStripe();
-
+    console.log("cheguei 1")
     if(!token || !token.email) {
         return NextResponse.json({error: 'Você precisa estar logado para comprar'}, {status: 401})
     }
+    console.log("cheguei 2")
 
     if(token.stripeId === null) {
         const customer = await stripe.customers.create({
@@ -24,12 +25,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({error: 'Erro ao criar usuário'}, {status: 500})
         }
         token.stripeId = customer.id;
+    console.log("cheguei 3")
         
         const checkout = await stripe.checkout.sessions.create({
             success_url: 'http://localhost:3000/',
             line_items: req.items,
-            customer: customer.id, 
-            customer_email: customer.email,
+            customer: customer.id,
             mode: 'payment',
             invoice_creation: {enabled: true},
         })
@@ -40,12 +41,12 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({url: checkout.url});
     }
+    console.log("cheguei 4")
     
     const checkout = await stripe.checkout.sessions.create({
         success_url: 'http://localhost:3000/',
         line_items: req.items,
         customer: token.stripeId as string, 
-        customer_email: token.email as string,
         mode: 'payment',
         invoice_creation: {enabled: true},
     })
